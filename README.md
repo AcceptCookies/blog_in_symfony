@@ -1,4 +1,4 @@
-#Blog in Symfony
+# Blog in Symfony
 
 A simple blog in Symfony framework.
 
@@ -23,9 +23,10 @@ $ composer install
 ## Run migrations
 Create new database by executing:
 ```bash
-$ symfony doctrine:database:create
+$ symfony console doctrine:database:create
 ```
 and run the migration to add the table to the database:
 ```bash
+$ symfony console make:migration
 $ symfony console doctrine:migrations:migrate
 ```
