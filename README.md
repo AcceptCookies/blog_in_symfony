@@ -30,3 +30,12 @@ and run the migration to add the table to the database:
 $ symfony console make:migration
 $ symfony console doctrine:migrations:migrate
 ```
+
+## Populate database tables
+
+Automatically generate data and fill your database tables with test data by executing this command:
+
+```bash
+$ symfony console doctrine:fixtures:load
+```
+> **_NOTE:_** By default the load command purges the database, removing all data from every table. To append your fixtures' data add the --append option.
