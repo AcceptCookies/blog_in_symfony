@@ -15,7 +15,7 @@ class AuthorFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $author = new Author();
             $author->setEmail($faker->email)
-                ->setName($faker->userName);
+                   ->setName($faker->userName);
             $manager->persist($author);
             $this->addReference('author_reference_'.$i, $author);
         }
