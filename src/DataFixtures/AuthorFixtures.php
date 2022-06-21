@@ -12,7 +12,7 @@ class AuthorFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $author = new Author();
             $author->setEmail($faker->email)
                    ->setName($faker->userName);

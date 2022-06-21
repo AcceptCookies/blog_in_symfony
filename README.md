@@ -38,4 +38,15 @@ Automatically generate data and fill your database tables with test data by exec
 ```bash
 $ symfony console doctrine:fixtures:load
 ```
-> **_NOTE:_** By default the load command purges the database, removing all data from every table. To append your fixtures' data add the --append option.
+> **_NOTE:_** By default the load command purges the database, removing all data from every table. 
+> To append your fixtures' data add the --append option.
+
+## Start the web server
+
+To start a local server navigate to root directory and run command:
+
+```bash 
+$ symfony server:start
+```
+
+By default server is listening on http://127.0.0.1:8000 

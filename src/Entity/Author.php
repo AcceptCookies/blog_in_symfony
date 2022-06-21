@@ -25,12 +25,12 @@ class Author
     private $post;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
-    private $comments;
+    private $comment;
 
     public function __construct()
     {
         $this->post = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->comment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,15 +95,15 @@ class Author
     /**
      * @return Collection<int, Comment>
      */
-    public function getComments(): Collection
+    public function getcomment(): Collection
     {
-        return $this->comments;
+        return $this->comment;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
+        if (!$this->comment->contains($comment)) {
+            $this->comment[] = $comment;
             $comment->setAuthor($this);
         }
 
@@ -112,7 +112,7 @@ class Author
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comments->removeElement($comment)) {
+        if ($this->comment->removeElement($comment)) {
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);

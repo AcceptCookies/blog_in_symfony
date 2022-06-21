@@ -13,18 +13,18 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $comment = new Comment();
             $comment->setContent($faker->realText(20,1))
                 ->setDate($faker->date('now'))
                 ->setAuthor(
-                    $this->getReference('author_reference_'.$i)
+                    $this->getReference('author_reference_'.$faker->numberBetween(0,3))
                 )
                 ->setPost(
-                    $this->getReference('post_reference_'.$i)
+                    $this->getReference('post_reference_'.$faker->numberBetween(0,9))
                 );
-            $this->getReference('post_reference_'.$i);
-            $this->getReference('author_reference_'.$i);
+//            $this->getReference('post_reference_'.$i);
+//            $this->getReference('author_reference_'.$i);
             $manager->persist($comment);
             $this->addReference('comment_reference_'.$i, $comment);
         }

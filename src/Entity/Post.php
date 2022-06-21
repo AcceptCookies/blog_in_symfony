@@ -17,7 +17,7 @@ class Post
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $content;
+    private $description;
 
     #[ORM\Column(type: 'integer')]
     private $date;
@@ -26,8 +26,11 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private $author;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     private $comment;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $content;
 
     public function getId(): ?int
     {
@@ -46,14 +49,14 @@ class Post
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getDescription(): ?string
     {
-        return $this->content;
+        return $this->description;
     }
 
-    public function setContent(string $content): self
+    public function setDescription(string $description): self
     {
-        $this->content = $content;
+        $this->description = $description;
 
         return $this;
     }
@@ -95,6 +98,18 @@ class Post
         }
 
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }
