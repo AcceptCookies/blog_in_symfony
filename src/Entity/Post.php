@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -11,26 +12,26 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    private ?string $title = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $description;
+    private ?string $description = null;
 
     #[ORM\Column(type: 'integer')]
-    private $date;
+    private ?int $date = null;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $content = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: false)]
-    private $author;
+    private ?Author $author = null;
 
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
-    private $comment;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $content;
+    private Comment|Collection $comment;
 
     public function getId(): ?int
     {

@@ -11,21 +11,21 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $content;
+    private ?string $content = null;
 
     #[ORM\Column(type: 'integer')]
-    private $date;
+    private ?int $date = null;
 
     #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'comment')]
     #[ORM\JoinColumn(nullable: false)]
-    private $post;
+    private ?Post $post = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'comment')]
     #[ORM\JoinColumn(nullable: false)]
-    private $author;
+    private ?Author $author = null;
 
     public function getId(): ?int
     {

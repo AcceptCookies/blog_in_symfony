@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AuthorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,25 +12,19 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $email;
+    private ?string $email = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
-    private $post;
+    private Collection $post;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
-    private $comment;
-
-    public function __construct()
-    {
-        $this->post = new ArrayCollection();
-        $this->comment = new ArrayCollection();
-    }
+    private Collection $comment;
 
     public function getId(): ?int
     {
