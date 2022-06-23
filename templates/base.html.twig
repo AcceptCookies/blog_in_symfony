@@ -8,8 +8,10 @@
     <body>
         {% block body %}
             {% for post in pagination %}
-                </section>
-                    <h2>{{ post.title }}</h2>
+                <section>
+                    <h2>
+                        <a href="{{ path('post', {id: post.id}) }}">{{ post.title }}</a>
+                    </h2>
                     <p>{{ post.description }}</p>
                     <time>
                         <small>{{ post.date|date("m/d/Y") }}</small>

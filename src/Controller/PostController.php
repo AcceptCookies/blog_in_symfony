@@ -46,6 +46,7 @@ class PostController extends AbstractController
     public function post(ManagerRegistry $doctrine, int $id): Response
     {
         $post = $doctrine->getRepository(Post::class)->find($id);
+        $comments  = $doctrine->getRepository(Comment::class)->findAll();
 
         if (!$post) {
             throw $this->createNotFoundException(
@@ -54,7 +55,8 @@ class PostController extends AbstractController
         }
 
         return $this->render('post/index.html.twig', [
-            'title' => $post->getTitle(),
+            'post' => $post,
+            'comments' => $comments
         ]);
     }
 }

@@ -23,7 +23,7 @@ class Post
     #[ORM\Column(type: 'integer')]
     private ?int $date = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 65535)]
     private ?string $content = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'post')]

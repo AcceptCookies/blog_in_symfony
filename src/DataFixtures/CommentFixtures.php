@@ -15,7 +15,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
         $faker = Faker\Factory::create();
         for ($i = 0; $i < 50; $i++) {
             $comment = new Comment();
-            $comment->setContent($faker->realText(20,1))
+            $comment->setContent($faker->realText(100,1))
                 ->setDate($faker->date('now'))
                 ->setAuthor(
                     $this->getReference('author_reference_'.$faker->numberBetween(0,3))
