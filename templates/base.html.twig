@@ -7,11 +7,13 @@
     </head>
     <body>
         {% block body %}
-            {% for post in posts %}
-                </figure>
+            {% for post in pagination %}
+                </section>
                     <h2>{{ post.title }}</h2>
                     <p>{{ post.description }}</p>
-                    <time>{{ post.date|date("m/d/Y") }}</time>
+                    <time>
+                        <small>{{ post.date|date("m/d/Y") }}</small>
+                    </time>
                     <p>
                         <small>Author: <b>{{ post.author.name }}</b> - {{ post.author.email }}</small>
                     </p>
@@ -21,10 +23,11 @@
                             {% set number_of_comments = number_of_comments + 1 %}
                         {% endif %}
                     {% endfor %}
-                    <p>Comments: {{ number_of_comments }}</p>
-                </figure>
+                    <p><small>Comments: {{ number_of_comments }}</small></p>
+                </section>
                 <hr>
             {% endfor %}
+            <p>{{ knp_pagination_render(pagination) }}</p>
         {% endblock %}
     </body>
 </html>
