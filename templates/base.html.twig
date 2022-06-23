@@ -2,34 +2,11 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}Blog{% endblock %}</title>
     </head>
     <body>
-        {% block body %}
-            {% for post in pagination %}
-                <section>
-                    <h2>
-                        <a href="{{ path('post', {id: post.id}) }}">{{ post.title }}</a>
-                    </h2>
-                    <p>{{ post.description }}</p>
-                    <time>
-                        <small>{{ post.date|date("m/d/Y") }}</small>
-                    </time>
-                    <p>
-                        <small>Author: <b>{{ post.author.name }}</b> - {{ post.author.email }}</small>
-                    </p>
-                    {% set number_of_comments = 0 %}
-                    {% for comment in comments %}
-                        {% if post.id == comment.post.id %}
-                            {% set number_of_comments = number_of_comments + 1 %}
-                        {% endif %}
-                    {% endfor %}
-                    <p><small>Comments: {{ number_of_comments }}</small></p>
-                </section>
-                <hr>
-            {% endfor %}
-            <p>{{ knp_pagination_render(pagination) }}</p>
-        {% endblock %}
+    {% block body %}
+            {% block content %}{% endblock %}
+    {% endblock %}
     </body>
 </html>

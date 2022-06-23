@@ -16,8 +16,8 @@ const LIMIT_PER_PAGE = 4;
 
 class PostController extends AbstractController
 {
-    #[Route('/', name: 'app_post')]
-    public function index(ManagerRegistry $doctrine, PaginatorInterface $paginator, Request $request): Response
+    #[Route('/posts', name: 'posts')]
+    public function overview(ManagerRegistry $doctrine, PaginatorInterface $paginator, Request $request): Response
     {
         $posts = $doctrine->getRepository(Post::class)->findAll();
         $comments  = $doctrine->getRepository(Comment::class)->findAll();
@@ -34,16 +34,14 @@ class PostController extends AbstractController
             LIMIT_PER_PAGE
         );
 
-        return $this->render('base.html.twig', [
+        return $this->render('post/overview.html.twig', [
             'comments' => $comments,
             'pagination' => $pagination
         ]);
     }
-
-    /**
-     * @Route("/post/{id}", name="post")
-     */
-    public function post(ManagerRegistry $doctrine, int $id): Response
+    
+    #[Route('/post/{id}', name: 'post')]
+    public function detail(ManagerRegistry $doctrine, int $id): Response
     {
         $post = $doctrine->getRepository(Post::class)->find($id);
         $comments  = $doctrine->getRepository(Comment::class)->findAll();
@@ -54,7 +52,7 @@ class PostController extends AbstractController
             );
         }
 
-        return $this->render('post/index.html.twig', [
+        return $this->render('post/detail.html.twig', [
             'post' => $post,
             'comments' => $comments
         ]);
