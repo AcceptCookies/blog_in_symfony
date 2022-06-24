@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Post;
+use App\Form\PostFormType;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,15 +19,24 @@ const LIMIT_PER_PAGE = 4;
 
 class PostController extends AbstractController
 {
-    #[Route('/posts', name: 'posts')]
-    public function overview(ManagerRegistry $doctrine, PaginatorInterface $paginator, Request $request): Response
+    private ObjectRepository $posts;
+    private ObjectRepository $comments;
+
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $posts = $doctrine->getRepository(Post::class)->findAll();
-        $comments  = $doctrine->getRepository(Comment::class)->findAll();
+        $this->posts = $doctrine->getRepository(Post::class);
+        $this->comments = $doctrine->getRepository(Comment::class);
+    }
+
+    #[Route('/posts', name: 'posts', methods: 'GET')]
+    public function index(PaginatorInterface $paginator, Request $request): Response
+    {
+        $posts = $this->posts->findAll();
+        $comments  = $this->comments->findAll();
 
         if (!$posts) {
             throw $this->createNotFoundException(
-                'No post found'
+                'No posts found'
             );
         }
 
@@ -34,27 +46,53 @@ class PostController extends AbstractController
             LIMIT_PER_PAGE
         );
 
-        return $this->render('post/overview.html.twig', [
+        return $this->render('posts/index.html.twig', [
             'comments' => $comments,
             'pagination' => $pagination
         ]);
     }
-    
-    #[Route('/post/{id}', name: 'post')]
-    public function detail(ManagerRegistry $doctrine, int $id): Response
+
+    #[Route('/posts/create', name: 'create_post', methods: 'GET|POST')]
+    public function create(Request $request, ManagerRegistry $doctrine): Response
     {
-        $post = $doctrine->getRepository(Post::class)->find($id);
-        $comments  = $doctrine->getRepository(Comment::class)->findAll();
+        $entityManager = $doctrine->getManager();
+
+        $post = new Post();
+        $form = $this->createForm(PostFormType::class, $post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPost = $form->getData();
+            $entityManager->persist($newPost);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('posts');
+        }
+
+        return $this->render('posts/create.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+    
+    #[Route('/posts/{id}', name: 'show_post', methods: 'GET')]
+    public function show(int $id): Response
+    {
+        $post = $this->posts->find($id);
+        $comments  = $this->comments->findAll();
 
         if (!$post) {
             throw $this->createNotFoundException(
-                'No post found for id '.$id
+                'No posts found for id '.$id
             );
         }
 
-        return $this->render('post/detail.html.twig', [
+        return $this->render('posts/show.html.twig', [
             'post' => $post,
             'comments' => $comments
         ]);
     }
+
+
+
+
 }

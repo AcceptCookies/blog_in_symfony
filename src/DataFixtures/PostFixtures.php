@@ -18,7 +18,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->setTitle($faker->realText(20, 1))
                 ->setDescription($faker->realText(50,1))
                 ->setContent($faker->realText(1000,1))
-                ->setDate($faker->date('now'))
+                ->setCreated()
                 ->setAuthor(
                     $this->getReference('author_reference_'.$faker->numberBetween(0,3))
                 );

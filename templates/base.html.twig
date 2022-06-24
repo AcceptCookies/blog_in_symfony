@@ -2,11 +2,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Blog{% endblock %}</title>
+        <title>{% block title %}Blog - home{% endblock %}</title>
     </head>
     <body>
     {% block body %}
-            {% block content %}{% endblock %}
+            {% block content %}
+                <h1>Home page</h1>
+                <ul>
+                    <li>
+                        <a href="{{ path('posts') }}">Post overview</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('create_post') }}">Add new post</a>
+                    </li>
+                </ul>
+            {% endblock %}
     {% endblock %}
     </body>
 </html>

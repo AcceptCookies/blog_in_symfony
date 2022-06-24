@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -20,17 +21,17 @@ class Post
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'integer')]
-    private ?int $date = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTime $created = null;
 
     #[ORM\Column(type: 'string', length: 65535)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'post')]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Author $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Comment::class, orphanRemoval: true)]
     private Comment|Collection $comment;
 
     public function getId(): ?int
@@ -62,16 +63,18 @@ class Post
         return $this;
     }
 
-    public function getDate(): ?int
+    public function getCreated(): ?\DateTime
     {
-        return $this->date;
+        return $this->created;
     }
 
-    public function setDate(int $date): self
+    #[PrePersist]
+    public function setCreated(): self
     {
-        $this->date = $date;
+        $this->created = new \DateTime();
 
         return $this;
+
     }
 
     public function getAuthor(): ?Author

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PrePersist;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -16,8 +17,8 @@ class Comment
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $content = null;
 
-    #[ORM\Column(type: 'integer')]
-    private ?int $date = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTime $created = null;
 
     #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'comment')]
     #[ORM\JoinColumn(nullable: false)]
@@ -44,16 +45,18 @@ class Comment
         return $this;
     }
 
-    public function getDate(): ?int
+    public function getCreated(): ?\DateTime
     {
-        return $this->date;
+        return $this->created;
     }
 
-    public function setDate(int $date): self
+    #[PrePersist]
+    public function setCreated(): self
     {
-        $this->date = $date;
+        $this->created = new \DateTime();
 
         return $this;
+
     }
 
     public function getPost(): ?Post
