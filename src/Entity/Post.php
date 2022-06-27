@@ -6,6 +6,7 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PrePersist;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -16,22 +17,29 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     private ?string $title = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     private ?string $description = null;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTime $created = null;
 
     #[ORM\Column(type: 'string', length: 65535)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     private ?string $content = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Author $author = null;
 
     #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
     private Comment|Collection $comment;
 
     public function getId(): ?int
@@ -44,7 +52,7 @@ class Post
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -56,7 +64,7 @@ class Post
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

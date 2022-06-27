@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Form\PostFormType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -55,14 +55,20 @@ class PostController extends AbstractController
     #[Route('/posts/create', name: 'create_post', methods: 'GET|POST')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
+        $post = new Post();
         $entityManager = $doctrine->getManager();
 
-        $post = new Post();
-        $form = $this->createForm(PostFormType::class, $post);
+        $authors = $doctrine->getRepository(Author::class)->findAll();
+        $fakeAuthor = $authors[0];
 
+        $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $newPost = $form->getData();
+            $newPost->setCreated();
+            $newPost->setAuthor($fakeAuthor);
+
             $entityManager->persist($newPost);
             $entityManager->flush();
 
