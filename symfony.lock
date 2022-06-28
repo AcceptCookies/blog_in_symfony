@@ -1,4 +1,16 @@
 {
+    "dama/doctrine-test-bundle": {
+        "version": "7.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "4.0",
+            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
+        },
+        "files": [
+            "./config/packages/test/dama_doctrine_test_bundle.yaml"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -49,6 +61,9 @@
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.8.0"
+    },
+    "liip/test-fixtures-bundle": {
+        "version": "2.4.0"
     },
     "phpunit/phpunit": {
         "version": "9.5",

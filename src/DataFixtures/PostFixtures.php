@@ -13,6 +13,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create();
+
         for ($i = 0; $i < 10; $i++) {
             $post = new Post();
             $post->setTitle($faker->realText(20, 1))

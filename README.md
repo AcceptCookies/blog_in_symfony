@@ -50,3 +50,18 @@ $ symfony server:start
 ```
 
 By default server is listening on http://127.0.0.1:8000 
+
+## Unit Testing
+
+This command automatically runs application tests:
+
+```bash
+$ symfony php bin/phpunit
+```
+
+or runs specific folder by: 
+
+```bash
+$ symfony php bin/phpunit test/PostTest.php
+```
+php bin/console doctrine:fixtures:load --env=test
