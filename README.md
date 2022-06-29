@@ -64,4 +64,3 @@ or runs specific folder by:
 ```bash
 $ symfony php bin/phpunit test/PostTest.php
 ```
-php bin/console doctrine:fixtures:load --env=test
