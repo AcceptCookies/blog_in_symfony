@@ -20,18 +20,21 @@ cd blog_in_symfony
 composer install
 ```
 
-## Run migrations
+## Migrations: Creating the Database Tables/Schema
 Create new database by executing:
 ```bash
 symfony console doctrine:database:create
 ```
-and run the migration to add the table to the database:
+generate the migration with command:
 ```bash
 symfony console make:migration
+```
+and update database by executing migrations:
+```bash
 symfony console doctrine:migrations:migrate
 ```
 
-## Populate database tables
+## Populate Database Tables
 
 Automatically generate data and fill your database tables with test data by executing this command:
 
@@ -41,7 +44,7 @@ symfony console doctrine:fixtures:load
 > **_NOTE:_** By default the load command purges the database, removing all data from every table. 
 > To append your fixtures' data add the --append option.
 
-## Start the web server
+## Start the Web Server
 
 To start a local server navigate to root directory and run command:
 
