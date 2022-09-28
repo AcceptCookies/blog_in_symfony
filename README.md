@@ -62,7 +62,7 @@ This command automatically runs application tests:
 symfony php bin/phpunit
 ```
 
-or runs specific folder by: 
+or runs specific test by: 
 
 ```bash
 symfony php bin/phpunit tests/PostControllerTest.php
