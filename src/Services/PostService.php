@@ -11,6 +11,7 @@ use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use \Knp\Component\Pager\Pagination\PaginationInterface as Pagination;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 const PAGE_NUMBER = 1;
 const LIMIT_PER_PAGE = 4;
@@ -45,7 +46,7 @@ class PostService
     {
         try {
             return $this->comments->findAll();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [];
         }
     }
@@ -82,14 +83,12 @@ class PostService
         }
     }
 
-    public function getPost($id)
+    public function getPost($id): object
     {
         $post = $this->posts->find($id);
 
         if (!$post) {
-            throw $this->createNotFoundException(
-                'No posts found for id '.$id
-            );
+            throw new NotFoundHttpException();
         }
 
         return $post;
