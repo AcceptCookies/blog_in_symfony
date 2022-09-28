@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectRepository;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use \Knp\Component\Pager\Pagination\PaginationInterface as Pagination;
 
 const PAGE_NUMBER = 1;
 const LIMIT_PER_PAGE = 4;
@@ -26,14 +26,12 @@ class PostService
         $this->comments = $doctrine->getRepository(Comment::class);
     }
 
-    public function getAllPosts(Request $request, PaginatorInterface $paginator): \Knp\Component\Pager\Pagination\PaginationInterface
+    public function getAllPosts(Request $request, PaginatorInterface $paginator): Pagination|false
     {
         $posts = $this->posts->findAll();
 
         if (!$posts) {
-            throw new NotFoundHttpException(
-                'No posts found'
-            );
+            return false;
         }
 
         return $paginator->paginate(
@@ -54,21 +52,25 @@ class PostService
 
     public function createPostForm(Request $request, ManagerRegistry $doctrine, $form) {
         $entityManager = $doctrine->getManager();
-        $authors = $doctrine->getRepository(Author::class)->findAll();
+
         // dummy data for non-registrated account
+        $authors = $doctrine->getRepository(Author::class)->findAll();
         if (!$authors) {
-            throw new NotFoundHttpException(
-                'No author found'
-            );
+            $author = new Author();
+            $author->setName('dummy name')
+                   ->setEmail('dummy@email.com');
+            $entityManager->persist($author);
+            $entityManager->flush();
+        } else {
+            $author = $authors[0];
         }
 
-        $fakeAuthor = $authors[0];
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newPost = $form->getData();
             $newPost->setCreated();
-            $newPost->setAuthor($fakeAuthor);
+            $newPost->setAuthor($author);
             $entityManager->persist($newPost);
             $entityManager->flush();
         }
