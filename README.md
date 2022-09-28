@@ -65,5 +65,5 @@ symfony php bin/phpunit
 or runs specific folder by: 
 
 ```bash
-symfony php bin/phpunit test/PostTest.php
+symfony php bin/phpunit tests/PostControllerTest.php
 ```
