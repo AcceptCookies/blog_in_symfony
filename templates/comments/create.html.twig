@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog - add a new post{% endblock %}
+{% block title %}Blog - add a new comment{% endblock %}
 
 {% block content %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <a href="{{ path('home') }}">Back</a>
-    <button type="submit">Submit post</button>
+    <button type="submit">Submit comment</button>
     {{ form_end(form) }}
 {% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use TypeError;
 
 class PostControllerTest extends KernelTestCase
 {
@@ -21,7 +22,6 @@ class PostControllerTest extends KernelTestCase
         parent::setUp();
 
         $kernel = self::bootKernel();
-
         DatabasePrimer::prime($kernel);
 
         $this->databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
@@ -32,9 +32,7 @@ class PostControllerTest extends KernelTestCase
     /** @test */
     public function a_post_record_can_be_created_in_the_database(): void
     {
-        $this->databaseTool->loadFixtures([
-            AuthorFixtures::class
-        ]);
+        $this->databaseTool->loadFixtures([AuthorFixtures::class]);
 
         /** @var Author $author */
         $author = $this->entityManager->getRepository(Author::class)->find(1);
@@ -63,7 +61,7 @@ class PostControllerTest extends KernelTestCase
         try {
             $this->post->setTitle([]);
             $this->fail('A TypeError should have been thrown');
-        } catch (\TypeError $error) {
+        } catch (TypeError $error) {
             $this->assertStringStartsWith('App\Entity\Post::setTitle():', $error->getMessage());
         }
     }
