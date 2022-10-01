@@ -11,7 +11,7 @@
             <small>{{ post.created|date("m/d/Y") }}</small>
         </time>
         <hr>
-        {% for comment in comments %}
+        {% for comment in post.comment %}
             {% if post.id == comment.post.id %}
                 <section>
                     <p>

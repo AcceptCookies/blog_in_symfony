@@ -51,8 +51,7 @@ class PostController extends AbstractController
     public function show(int $id): Response
     {
         return $this->render('posts/show.html.twig', [
-            'post' => $this->postService->getPost($id),
-            'comments' => $this->postService->getPostComments()
+            'post' => $this->postService->getPost($id)
         ]);
     }
 }

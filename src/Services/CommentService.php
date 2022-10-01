@@ -6,7 +6,6 @@ use App\Entity\Author;
 use App\Entity\Post;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Exception;
 
 class CommentService
 {
@@ -29,10 +28,6 @@ class CommentService
             $entityManager->flush();
         }
 
-        try {
-            return $form;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
+        return $form;
     }
 }
