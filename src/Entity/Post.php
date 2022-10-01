@@ -34,11 +34,11 @@ class Post
     #[Assert\Length(min: 3)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'posts')]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'post')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Author $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Comment::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Comment::class, orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
     private Comment|Collection $comment;
 
@@ -97,7 +97,7 @@ class Post
         return $this;
     }
 
-    public function getComment(): ?Comment
+    public function getComment(): Comment|Collection
     {
         return $this->comment;
     }

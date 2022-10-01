@@ -16,13 +16,7 @@
             <p>
                 <small>Author: <b>{{ post.author.name }}</b> - {{ post.author.email }}</small>
             </p>
-            {% set number_of_comments = 0 %}
-            {% for comment in comments %}
-                {% if post.id == comment.post.id %}
-                    {% set number_of_comments = number_of_comments + 1 %}
-                {% endif %}
-            {% endfor %}
-            <p><small>Comments: {{ number_of_comments }}</small></p>
+            <p><small>Comments: {{ post.comment_count }}</small></p>
         </section>
         <hr>
     {% endfor %}

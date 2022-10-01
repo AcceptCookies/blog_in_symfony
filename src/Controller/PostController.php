@@ -32,7 +32,6 @@ class PostController extends AbstractController
         }
 
         return $this->render('posts/index.html.twig', [
-            'comments' => $this->postService->getPostComments(),
             'pagination' => $pagination
         ]);
     }

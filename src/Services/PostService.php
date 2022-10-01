@@ -19,7 +19,6 @@ const LIMIT_PER_PAGE = 4;
 class PostService
 {
     private ObjectRepository $posts;
-    private ObjectRepository $comments;
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -31,27 +30,15 @@ class PostService
     {
         $data = $this->posts->
         getPaginatedPosts($request->query->getInt('page', PAGE_NUMBER), LIMIT_PER_PAGE);
-
          $pagination = $paginator->paginate(
             $data['posts'],
             $request->query->getInt('page', PAGE_NUMBER),
             LIMIT_PER_PAGE
         );
-
         $pagination->setItems($data['posts']);
-
         $pagination->setTotalItemCount($data['posts_count']);
 
         return $pagination;
-    }
-
-    public function getPostComments(): array
-    {
-        try {
-            return $this->comments->findAll();
-        } catch (Exception) {
-            return [];
-        }
     }
 
     public function createPostForm(Request $request, ManagerRegistry $doctrine, $form) {

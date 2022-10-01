@@ -53,6 +53,7 @@ class PostRepository extends ServiceEntityRepository
             ->setMaxResults($postsPerPage);
 
         foreach ($paginator as $post) {
+            $post->comment_count = $post->getComment()->count();
             array_push($postsArray, $post);
         }
 
