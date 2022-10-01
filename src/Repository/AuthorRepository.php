@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,5 +38,29 @@ class AuthorRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getFirstOrCreate(): Author
+    {
+        $query = $this->createQueryBuilder('a')->getQuery();
+
+        $paginator = new Paginator ($query);
+        $paginator->getQuery()
+            ->setFirstResult(0)
+            ->setMaxResults(1);
+        $author = $paginator->getQuery()->execute();
+
+        if ($author === []) {
+            // dummy data for non-registered account
+            $author = new Author();
+            $author->setName('dummy name')
+                ->setEmail('dummy@email.com');
+            $this->getEntityManager()->persist($author);
+            $this->getEntityManager()->flush();
+        } else {
+            $author = $author[0];
+        }
+
+        return $author;
     }
 }
