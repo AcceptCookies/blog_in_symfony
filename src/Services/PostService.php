@@ -27,19 +27,22 @@ class PostService
         $this->comments = $doctrine->getRepository(Comment::class);
     }
 
-    public function getAllPosts(Request $request, PaginatorInterface $paginator): Pagination|false
+    public function getAllPosts(Request $request, PaginatorInterface $paginator): Pagination
     {
-        $posts = $this->posts->findAll();
+        $data = $this->posts->
+        getPaginatedPosts($request->query->getInt('page', PAGE_NUMBER), LIMIT_PER_PAGE);
 
-        if (!$posts) {
-            return false;
-        }
-
-        return $paginator->paginate(
-            $posts,
+         $pagination = $paginator->paginate(
+            $data['posts'],
             $request->query->getInt('page', PAGE_NUMBER),
             LIMIT_PER_PAGE
         );
+
+        $pagination->setItems($data['posts']);
+
+        $pagination->setTotalItemCount($data['posts_count']);
+
+        return $pagination;
     }
 
     public function getPostComments(): array
