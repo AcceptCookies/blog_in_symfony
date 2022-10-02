@@ -14,9 +14,14 @@ Clone the project to download its contents:
 git clone git@github.com:AcceptCookies/blog_in_symfony.git
 ```
 
-Install dependencies into vendor folder via composer:
+Create .env file by duplicating .env.example
 ```bash
 cd blog_in_symfony
+cp .env.example .env
+```
+
+Install dependencies into vendor folder via composer:
+```bash
 composer install
 ```
 
@@ -54,16 +59,10 @@ symfony server:start
 
 By default server is listening on http://127.0.0.1:8000 
 
-## Unit Testing
+## Running tests
 
 This command automatically runs application tests:
 
 ```bash
 symfony php bin/phpunit
-```
-
-or runs specific test by: 
-
-```bash
-symfony php bin/phpunit tests/PostControllerTest.php
 ```
