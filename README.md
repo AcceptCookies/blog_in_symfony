@@ -14,9 +14,14 @@ Clone the project to download its contents:
 git clone git@github.com:AcceptCookies/blog_in_symfony.git
 ```
 
-Install dependencies into vendor folder via composer:
+Create .env file by duplicating .env.example
 ```bash
 cd blog_in_symfony
+cp .env.example .env
+```
+
+Install dependencies into vendor folder via composer:
+```bash
 composer install
 ```
 
