@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PrePersist;
@@ -27,7 +28,7 @@ class Post
     private ?string $description = null;
 
     #[ORM\Column(type: 'datetime')]
-    private ?\DateTime $created = null;
+    private ?DateTime $created = null;
 
     #[ORM\Column(type: 'string', length: 65535)]
     #[Assert\NotBlank]
@@ -71,7 +72,7 @@ class Post
         return $this;
     }
 
-    public function getCreated(): ?\DateTime
+    public function getCreated(): ?DateTime
     {
         return $this->created;
     }
@@ -79,7 +80,7 @@ class Post
     #[PrePersist]
     public function setCreated(): self
     {
-        $this->created = new \DateTime();
+        $this->created = new DateTime();
 
         return $this;
 
@@ -104,7 +105,6 @@ class Post
 
     public function setComment(Comment $comment): self
     {
-        // set the owning side of the relation if necessary
         if ($comment->getPost() !== $this) {
             $comment->setPost($this);
         }

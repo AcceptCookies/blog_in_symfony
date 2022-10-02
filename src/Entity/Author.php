@@ -76,7 +76,6 @@ class Author
     public function removePost(Post $post): self
     {
         if ($this->post->removeElement($post)) {
-            // set the owning side to null (unless already changed)
             if ($post->getAuthor() === $this) {
                 $post->setAuthor(null);
             }
@@ -106,7 +105,6 @@ class Author
     public function removeComment(Comment $comment): self
     {
         if ($this->comment->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
             }

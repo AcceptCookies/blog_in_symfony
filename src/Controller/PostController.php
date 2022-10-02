@@ -34,8 +34,7 @@ class PostController extends AbstractController
     #[Route('/posts/create', name: 'create_post', methods: 'GET|POST')]
     public function create(Request $request, ManagerRegistry $doctrine): Response
     {
-        $post = new Post();
-        $form = $this->createForm(PostFormType::class, $post);
+        $form = $this->createForm(PostFormType::class, new Post());
 
         return $this->render('posts/create.html.twig',[
             'form' => $this->postService->createPostForm($request, $doctrine, $form)->createView()
