@@ -7,7 +7,6 @@ use App\Form\PostFormType;
 use App\Services\PostService;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
-use \Knp\Component\Pager\Pagination\PaginationInterface as Pagination;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,10 +25,6 @@ class PostController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $pagination = $this->postService->getAllPosts($request, $paginator);
-
-        if (!$pagination instanceof Pagination) {
-            return $this->redirectToRoute('create_post');
-        }
 
         return $this->render('posts/index.html.twig', [
             'pagination' => $pagination

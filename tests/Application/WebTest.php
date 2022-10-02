@@ -46,10 +46,10 @@ class WebTest extends WebTestCase
     }
 
     /** @test */
-    public function posts_page_is_redirected_to_create_new_post_page_if_has_no_post(): void
+    public function posts_page_is_successfully_loaded_when_post_table_is_empty(): void
     {
         $this->client->request('GET', '/posts');
-        $this->assertResponseRedirects('/posts/create');
+        $this->assertResponseIsSuccessful('/posts');
     }
 
     /** @test */
