@@ -30,7 +30,7 @@ class Post
     #[ORM\Column(type: 'datetime')]
     private ?DateTime $created = null;
 
-    #[ORM\Column(type: 'string', length: 65535)]
+    #[ORM\Column(type: 'string', length: 5000)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3)]
     private ?string $content = null;

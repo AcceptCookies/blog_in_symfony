@@ -1,21 +1,41 @@
-version: '3'
+version: '3.5'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-13}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
-      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+  symfony:
+    image: ${COMPOSE_PROJECT_NAME}
+    build:
+      context: .
+      args:
+        BUILD_ARGUMENT_ENV: dev
+      dockerfile: ./Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}
+    expose:
+      - 80
+      - 443
+    ports:
+      - "8888:80"
+      - "443:443"
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - .:/var/www/html:cached
+    depends_on:
+      - mysql
+    networks:
+      - symfony
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+  mysql:
+    image: mysql
+    container_name: blog_in_symfony_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: blog
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./var/mysql-data:/var/lib/mysql:delegated
+      - ./docker/dev/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - symfony
+networks:
+  symfony:
+    name: symfony
