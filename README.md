@@ -20,6 +20,22 @@ cd blog_in_symfony
 cp .env.example .env
 ```
 
+# Docker Compose
+If you wish to set the environment using Docker-compose:
+1. Make sure you have already installed both Docker Engine and Docker Compose.
+2. To build, create and start containers run:
+```bash
+docker-compose up --build
+```
+
+3. Once that's done, you should be able to access the application on the http://0.0.0.0:8888
+4. To stop the Docker containers run:
+```bash
+docker-compose down --remove-orphans
+```
+
+# Manual Setting
+## Installing Composer
 Install dependencies into vendor folder via composer:
 ```bash
 composer install

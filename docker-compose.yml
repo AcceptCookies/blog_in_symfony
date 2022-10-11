@@ -5,10 +5,9 @@ services:
     image: ${COMPOSE_PROJECT_NAME}
     build:
       context: .
-      args:
-        BUILD_ARGUMENT_ENV: dev
       dockerfile: ./Dockerfile
     container_name: ${COMPOSE_PROJECT_NAME}
+    restart: always
     expose:
       - 80
       - 443
@@ -25,6 +24,7 @@ services:
   mysql:
     image: mysql
     container_name: blog_in_symfony_mysql
+    restart: always
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: password
